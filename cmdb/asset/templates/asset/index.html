@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>资产列表</title>
+    </head>
+    <body>
+        <a href="/asset/create/">添加</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>名字</th>
+                    <th>mac地址</th>
+                    <th>操作系统</th>
+                    <th>创建时间</th>
+                    <th>修改时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for info in rt %}
+                    <tr>
+                        <td>{{ info.username }}</td>
+                        <td>{{ info.mac }}</td>
+                        <td>{{ info.os_system }}</td>
+                        <td>{{ info.create_time }}</td>
+                        <td>{{ info.modify_time }}</td>
+                        <td>
+                            <a href="/asset/view_user/?name={{ info.id }}">编辑</a>
+                            <a href="/asset/delete_user/?name={{ info.id }}">删除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>
+
