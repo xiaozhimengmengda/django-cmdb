@@ -20,11 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'un!-$hs0luc&j2kv!o0bp1z#04+z03m&lj-inpl$6y^^f!ju8w'
+SECRET_KEY = 'o(1z8emxbkmvtcj0%n#n5v*%_!y^k8&pmkmvg+4+pqbm)o3z4h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-LOGIN_URL = '/asset/login/'
 
 ALLOWED_HOSTS = ["*"]
 
@@ -38,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'asset.apps.AssetConfig',
+    'ams.apps.AmsConfig',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +55,7 @@ ROOT_URLCONF = 'cmdb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "templates"),],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,16 +74,18 @@ WSGI_APPLICATION = 'cmdb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-
 DATABASES = {
     'default': {
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cmdb',
+         'NAME':  'cmdb',
         'HOST': '127.0.0.1',
         'PORT': 3306,
         'USER': 'root',
-        'PASSWORD':'password',
+        'PASSWORD': 'password',
         'CHARSET': 'utf8',
+
     }
 }
 
@@ -128,5 +129,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-     os.path.join(BASE_DIR, 'static'), 
+    os.path.join(BASE_DIR, 'static')
 ]
+
+LOGIN_URL = "/ams/userlogin/"
