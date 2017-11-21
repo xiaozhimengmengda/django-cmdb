@@ -1,0 +1,34 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Header</th>
+        <th>Header</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for line in objects_all %}
+    <tr>
+        <td>{{ line.sn }}</td>
+        <td>{{ line.ip }}</td>
+        <td>{{ line.hostname }}</td>
+    </tr>
+    {% endfor %}
+    <tbody>
+
+
+
+</body>
+</html>

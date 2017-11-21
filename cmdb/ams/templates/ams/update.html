@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% block title %} 更新 {% endblock %}
+{% block li %}
+
+<li role="presentation"><a href="/ams/list/">资产管理</a></li>
+<li role="presentation"><a href="/ams/add/">添加资产</a></li>
+{% endblock %}
+{% block content %}
+<div class="col-md-3 col-md-offset-4">
+<h2>更新</h2>
+</div>
+<div class="col-md-6">
+
+    {{ form.non_field_errors }}
+
+    <form action="/ams/update/{{ pk }}/" method="POST" novalidate="novalidate" class="form-horizontal">
+        {% csrf_token %}
+
+        <div class="form-group">
+            {{ form.hostname.errors }}
+            <label for="{{ form.hostname.id_for_label }}" class="col-sm-2 control-label">{{ form.hostname.label }}</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="{{ form.hostname.id_for_label }}" name="{{ form.hostname.html_name }}" placeholder="{{ form.hostname.label }}" value="{{ form.hostname.value|default_if_none:''  }}">
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.mac.errors }}
+            <label for="{{ form.mac.id_for_label }}" class="col-sm-2 control-label">{{ form.mac.label }}</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="{{ form.mac.id_for_label }}" name="{{ form.mac.html_name }}" placeholder="{{ form.mac.label }}" value="{{ form.mac.value|default_if_none:'' }}">
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.ip.errors }}
+            <label for="{{ form.ip.id_for_label }}" class="col-sm-2 control-label">{{ form.ip.label }}</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="{{ form.ip.id_for_label }}" name="{{ form.ip.html_name }}" placeholder="{{ form.ip.label }}" value="{{ form.ip.value|default_if_none:'' }}">
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.user.errors }}
+            <label for="{{ form.user.id_for_label }}" class="col-sm-2 control-label">{{ form.user.label }}</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="{{ form.user.id_for_label }}" name="{{ form.user.html_name }}" placeholder="{{ form.user.label }}" value="{{ form.user.value|default_if_none:'' }}">
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.sn.errors }}
+            <label for="{{ form.sn.id_for_label }}" class="col-sm-2 control-label">{{ form.sn.label }}</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="{{ form.sn.id_for_label }}" name="{{ form.sn.html_name }}" placeholder="{{ form.sn.label }}" value="{{ form.sn.value|default_if_none:'' }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

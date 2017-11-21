@@ -1,0 +1,121 @@
+{% extends "base.html"%}
+
+{% load staticfiles %}
+{% block title %} 我是继承的{% endblock %}
+{% block links %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/sweetalert.css' %}"/>
+{% endblock%}
+{% block js %}
+<script type="text/javascript" src="{% static 'js/sweetalert.min.js' %}"></script>
+{% endblock %}
+{% block li %}
+<li role="presentation"><a href="/ams/list/">资产管理</a></li>
+<li role="presentation"><a href="/ams/add/" class="btn btn-info">添加资产</a></li>
+{% endblock %}
+{% block content %}
+<div class="col-xs-4 col-md-8">
+<form  class="form-horizontal" role="form" method="post" novalidate="novalidate" id="form_add">
+    {{ form.non_field_errors }}
+    {% csrf_token %}
+    <!--{{ form }}-->
+    <div class="form-group">
+        {{ form.ip.errors }}
+        <label for="{{ form.ip.id_for_label }}" class="col-sm-2 control-label">{{ form.ip.label }}</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="{{ form.ip.id_for_label }}" name="{{ form.ip.html_name }}" placeholder="{{ form.ip.label }}" value="{{ form.ip.value|default_if_none:''  }}">
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form.hostname.errors }}
+        <label for="{{ form.hostname.id_for_label }}" class="col-sm-2 control-label">{{ form.hostname.label }}</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="{{ form.hostname.id_for_label }}" name="{{ form.hostname.html_name }}" placeholder="{{ form.hostname.label }}" value="{{ form.hostname.value|default_if_none:''  }}">
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form.mac.errors }}
+        <label for="{{ form.mac.id_for_label }}" class="col-sm-2 control-label">{{ form.mac.label }}</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="{{ form.mac.id_for_label }}" name="{{ form.mac.html_name }}" placeholder="{{ form.mac.label }}" value="{{ form.mac.value|default_if_none:''  }}">
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form.addr.errors }}
+        <label for="{{ form.addr.id_for_label }}" class="col-sm-2 control-label">{{ form.addr.label }}</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="{{ form.addr.id_for_label }}" name="{{ form.addr.html_name }}" placeholder="{{ form.addr.label }}" value="{{ form.addr.value|default_if_none:''  }}">
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form.user.errors }}
+        <label for="{{ form.user.id_for_label }}" class="col-sm-2 control-label">{{ form.user.label }}</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="{{ form.user.id_for_label }}" name="{{ form.user.html_name }}" placeholder="{{ form.user.label }}" value="{{ form.user.value|default_if_none:''  }}">
+        </div>
+    </div>
+    <div class="form-group">
+        {{ form.sn.errors }}
+        <label for="{{ form.sn.id_for_label }}" class="col-sm-2 control-label">{{ form.sn.label }}</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="{{ form.sn.id_for_label }}" name="{{ form.sn.html_name }}" placeholder="{{ form.sn.label }}" value="{{ form.sn.value|default_if_none:''  }}">
+        </div>
+    </div>
+
+    <div class="col-md-6 col-md-offset-6">
+    <input id="btn_add" type="button" value="提交" />
+    </div>
+</form>
+</div>
+{% endblock %}
+{% block script %}
+$('#btn_add').on('click', function() {
+				var params = jQuery('#form_add').serializeArray();
+				jQuery.post("{% url 'ams:add' %}", params, function(data) {
+					if(data['status'] == 200) {
+						swal({
+							title: "提交成功",
+						    text: "资产添加成功",
+						 	type: "success",
+						 	confirmButtonText: "确定"
+                            },function(){
+                              swal.close();
+                              window.location.replace(window.location.href)
+                            });
+					} else if(data['status'] == 400) {
+						var errors = [];
+						jQuery.each(data['errors'], function(key, value) {
+							errors.push(value[0]['message']);
+						});
+						swal({
+							title: "验证失败",
+							text: errors.join('\n'),
+							type: "error",
+							confirmButtonColor: "#DD6B55",
+							confirmButtonText: "确定"
+						});
+					} else if(data['status'] == 401) {
+						var errors = data['errors'] || [];
+						swal({
+							title: "用户未登录",
+							text: errors.join('\n'),
+							type: "error",
+							confirmButtonColor: "#DD6B55",
+							confirmButtonText: "确定"
+						});
+					} else if (data['status'] == 500) {
+						var errors = data['errors'] || [];
+						swal({
+							title: "服务器错误",
+							text: errors.join('\n'),
+							type: "error",
+							confirmButtonColor: "#DD6B55",
+							confirmButtonText: "确定"
+						});
+					} else {
+
+					}
+				}, 'json');
+			});
+{% endblock %}
+</body>
+</html>
